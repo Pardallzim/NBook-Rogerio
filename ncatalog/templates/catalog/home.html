@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    {% if books %}
+        {% for books in books %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="{{ books.path.url }}" alt="{{ books.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ books.title }}</h5>
+                        <p class="card-text">{{ books.description }}</p>
+                        <a href="{% url 'edit_books' books.id %}" class="btn btn-warning">Editar</a>
+                        <form method="post" action="{% url 'delete_books' books.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Deletar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<a href="{% url 'add_books' %}" class="btn btn-success">Adicionar Livro</a>
+{% endblock %}
